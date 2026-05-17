@@ -1,0 +1,133 @@
+---
+title: "Analysis of Youth Involvement in NYC Shooting Incidents"
+author: "Wania"
+format:
+  html:
+    embed-resources: true
+    code-fold: true
+---
+
+## Client
+
+[NYPD Youth Programs]{.underline}
+
+The NYPD Youth programs is a variety of youth-related initiatives that focus on challenges facing young New Yorkers as they mature into young adults.
+
+![](images/clipboard-3698828781.jpeg){fig-align="left" width="89"}
+
+## Recommendation
+
+I recommend that NYPD Youth Programs introduce a specific intervention program for troubled youth focused on improving mental health and reducing violent behaviour to address rising youth gun violence. Officers should encourage young offenders to participate so early support and guidance can help prevent future criminal activity and violence.
+
+## Evidence
+
+According to the *Office of the Mayor of New York City*, approximately 18% of shooting perpetrators were under the age of 18. This statistic was published in January 2026. To investigate whether the proportion of shooting offenders under the age of 18 has increased since then, a one-sample proportion test was conducted using a dataset updated in late February 2026. The test results did not provide strong evidence supporting an increase in the proportion of under-18 shooting offenders. However, it is important to note that the reported statistic remains the highest recorded since 2018(New York Police Department, 2026), indicating that youth involvement in violent crime continues to be a serious concern requiring ongoing attention and intervention.
+
+### Visualizations
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(dplyr)
+
+my_data = read.csv("Shooting_DATA.csv")
+
+cleanDATA = my_data[my_data$PERP_AGE_GROUP != "(null)", ]
+
+ggplot(cleanDATA, aes(x=PERP_AGE_GROUP))+geom_bar(fill="blue")+labs(title="Age Distribution of NYC Shooting Perpetrators", x="Suspect Age Group", y="Count")
+```
+
+Although the barplot above may visually suggest that perpetrators under the age of 18 represent a relatively small proportion compared to other age groups, comparison with the age demographic distribution presented in *Spatial Understandings of NYC Shooting Incidents* (covering data up to 2022) suggests that the relative proportion of perpetrators under 18 has increased in the current dataset. The *NYC Youth Crime in Context: Arrest and Recidivism* notes that between 2018 and 2024, the NYPD reported that gun arrests of individuals under 18 increased by 136%. During the same time period, the number of identified youth shooting suspects rose by 92%. *The Centers for Disease Control and Prevention Youth Violence Prevention program* identifies several risk factors that may contribute to youth violence, including high emotional distress, exposure to violence or family conflict, parental substance abuse or criminality, learning or behavioural disorders, etc. These factors could become key areas of focus within the recommended youth intervention program.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+
+filter_data=cleanDATA[cleanDATA$PERP_AGE_GROUP=="<18",]
+ggplot(filter_data,aes(x=BORO))+geom_bar(fill="lightpink")+labs(title="Distribution of Under-18 Shooting Perpetrators Across NYC Boroughs", x="Boroughs", y="Count")
+```
+
+To further understand the distribution of under-18 perpetrators, the graph above illustrates their distribution across the different boroughs of New York City. The proportion of under-18 shooting perpetrators is noticeably highest in the Bronx. Interestingly, the dataset contained no recorded under-18 perpetrators from Staten Island during the analysed period. Such analysis can help identify which boroughs may require greater intervention and support regarding youth violence. Additionally, it may motivate further research into the socioeconomic or environmental factors contributing to higher levels of youth crime in certain boroughs. According to *Eyewitness News*, although the Bronx is home to approximately 20% of New York City's youth population, it accounts for 30% of youth gun arrests, 48% of youth shooting arrests, and 38% of youth shooting victims. These findings provide strong justification for piloting the intervention program in the Bronx.
+
+## Limitations
+
+Null entries were excluded from the study which could lead to inaccuracy in the estimated proportion of under-18 shooters.
+
+Dataset only included reported incidents. Since unreported cases or cases with incomplete investigation are not represented, the ability to fully capture youth involvement in gun violence was limited.
+
+Independence between observations was assumed, as this could not be verified using the available dataset.
+
+## Ethics Statement
+
+I adhered to the shared professional value of professionalism by using statistical knowledge and analysis for the common good to serve society, particularly by recommending an approach aimed at reducing youth violence. I also adhered to ethical principles by ensuring there were no conflicts of interest, as I stood to gain no financial benefit from the results and had no involvement in the collection of the data.
+
+## AI Statement
+
++-----------+-----------+----------------------+-----------------------------------------------------+
+| Tool Name | Publisher | URL                  | Context of Use                                      |
++===========+===========+======================+=====================================================+
+| ChatGPT   | OpenAI    | https://chatgpt.com/ | -Improve the grammatical structure of my paragraphs |
+|           |           |                      |                                                     |
+|           |           |                      | -Format my references appropriately                 |
++-----------+-----------+----------------------+-----------------------------------------------------+
+
+## References
+
+### Source of Data
+
+<https://data.cityofnewyork.us/Public-Safety/ARCHIVED_NYPD-Shooting-Incident-Data-Year-To-Date-/98wc-x49t/about_data>
+
+### Articles and External Sources
+
+1\) New York City Mayor’s Office of Criminal Justice. (n.d.). *NYC youth crime in context: Arrest & recidivism*. <https://criminaljustice.cityofnewyork.us/reports/nyc-youth-crime-in-context-arrest-recidivism/>
+
+2\) The New York Times. (2024, October 20). *Youth crime arrests in NYC*. *The New York Times*. <https://www.nytimes.com/2024/10/20/nyregion/youth-crime-arrests-nyc.html>
+
+3\) New York City Police Department. (n.d.). *Youth programs*. NYC.gov. <https://www.nyc.gov/site/nypd/services/law-enforcement/youth-programs/youth-programs.page>
+
+4\) *Spatial Understandings of NYC Shooting Incidents.* (2023). ArcGIS StoryMaps. [https://storymaps.arcgis.com/stories/e6a2ca9ae06b4ac6b1de1fc15bdf0f39https://storymaps.arcgis.com/stories/e6a2ca9ae06b4ac6b1de1fc15bdf0f39](https://storymaps.arcgis.com/stories/e6a2ca9ae06b4ac6b1de1fc15bdf0f39)
+
+5\) Burkett, N. (2026, February 19). *Bronx district attorney demands reforms after surge in teen shootings*. ABC7 New York. <https://abc7ny.com/post/bronx-deadly-shooting-da-wants-reforms-surge-teen-violence-shootings/18622143/>
+
+6)New York Police Department. (2026, January 6). *NYPD announces safest year ever for gun violence with fewest shooting incidents and victims in recorded history*. NYC.gov.<https://www.nyc.gov/mayors-office/news/2026/01/transcript--mayor-mamdani-and-commissioner-tisch-announces-safes>
+
+7\) Centers for Disease Control and Prevention. (n.d.). *Risk factors for youth violence*. Youth Violence Prevention. <https://www.cdc.gov/youth-violence/risk-factors/index.html>
+
+## Appendix
+
+### *Hypotheses*
+
+H~0~: The proportion of shooters in NYC under the age of 18 is 0.18
+
+H~1~: The proportion of shooters in NYC under the age of 18 is greater than 0.18
+
+### *Assumptions*
+
+Every observation in the dataset is independant
+
+Every observation in the dataset had the same chance of being included
+
+### *Test Statistic*
+
+```{r}
+library(tidyverse)
+library(rafalib)
+my_data=read.csv("Shooting_DATA.csv")
+cleanDATA= my_data[my_data$PERP_AGE_GROUP!="(null)",]
+OV= mean(cleanDATA$PERP_AGE_GROUP=="<18")
+EV=0.18
+SE=sqrt((0.18*(1-0.18))/nrow(cleanDATA))
+test_statistic=(OV-EV)/SE
+test_statistic
+```
+
+### *P-value*
+
+```{r}
+p_value= pnorm(test_statistic, mean=0, sd=1, lower.tail = FALSE)
+p_value
+```
+
+### *Conclusion*
+
+Statistical Conclusion: The p-value is larger than the reference value of 0.05. Thus, we retain the null hypothesis
+
+Scientific Conclusion: The data does not contain strong evidence that the proportion of youth offenders has exceeded 0.18
